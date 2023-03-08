@@ -1,10 +1,10 @@
 <script setup>
 import { reactive } from 'vue';
-import 'axios';
+import axios from 'axios';
 
 const formData = reactive (
     {
-        login: '',
+        name: '',
         email: '',
         password: '',
         password_confirmation: '',
@@ -12,7 +12,9 @@ const formData = reactive (
 )
 
 function sendData () {
-    axios.post('/api/register', formData)
+    axios.post('/api/register', JSON.parse(JSON.stringify(formData)))
+    .then((res) => {console.log(res)})
+    .catch((e) => {console.log('not registered' + e)})
 }
 
 </script>
@@ -26,9 +28,9 @@ function sendData () {
             <v-form @submit.prevent>
                 <v-text-field
                     clearable
-                    label="Логин"
+                    label="Имя"
                     variant="outlined"
-                    v-model="formData.login"
+                    v-model="formData.name"
                 ></v-text-field>
                 <v-text-field
                     clearable
@@ -51,7 +53,7 @@ function sendData () {
                     variant="outlined"
                     v-model="formData.password_confirmation"
                 ></v-text-field>
-                <v-btn type="submit" class="mt-2" variant="outlined" @click="sendData">Регистрация</v-btn>
+                <v-btn type="submit" class="mt-2" variant="outlined" @click.prevent="sendData">Регистрация</v-btn>
             </v-form>
         </v-col>
     </v-row>

@@ -1,12 +1,24 @@
 <script setup>
+import axios from 'axios';
 import { reactive } from 'vue';
+import { useRouter } from 'vue-router';
 
-const formData = reactive (
+const router = useRouter()
+const form = reactive (
     {
-        login: '',
+        email: '',
         password: ''
     }
 )
+
+const sendData = async function () {
+    try {
+        await axios.post('/api/login', JSON.parse(JSON.stringify(form)))
+        router.push('/')
+    } catch (e) {
+        console.error(e)
+    }
+}
 
 </script>
 
@@ -19,21 +31,21 @@ const formData = reactive (
             <v-form @submit.prevent>
                 <v-text-field
                     clearable
-                    label="Логин"
+                    label="Email"
                     variant="outlined"
-                    v-model="formData.login"
+                    v-model="form.email"
                 ></v-text-field>
                 <v-text-field
                     clearable
                     label="Пароль"
                     type="password"
                     variant="outlined"
-                    v-model="formData.password"
+                    v-model="form.password"
                 ></v-text-field>
                 <v-checkbox
                     label="Запомнить меня"
                 ></v-checkbox>
-                <v-btn type="submit" class="mt-2" variant="outlined">Войти</v-btn>
+                <v-btn type="submit" class="mt-2" variant="outlined" @click.prevent="sendData">Войти</v-btn>
             </v-form>
         </v-col>
     </v-row>

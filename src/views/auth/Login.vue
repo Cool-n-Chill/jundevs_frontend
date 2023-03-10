@@ -1,25 +1,16 @@
 <script setup>
-import axios from 'axios';
-import { reactive } from 'vue';
-import { useRouter } from 'vue-router';
+import { reactive } from 'vue'
+import { useAuthStore } from '@/stores/auth.store'
+import { useValidationFormStore } from '@/stores/validationForm.store'
 
-const router = useRouter()
+const validationFormStore = useValidationFormStore()
+const authStore = useAuthStore()
 const form = reactive (
     {
         email: '',
         password: ''
     }
 )
-
-const sendData = async function () {
-    try {
-        await axios.post('/api/login', JSON.parse(JSON.stringify(form)))
-        router.push('/')
-    } catch (e) {
-        console.error(e)
-    }
-}
-
 </script>
 
 <template>
@@ -33,6 +24,7 @@ const sendData = async function () {
                     clearable
                     label="Email"
                     variant="outlined"
+                    :rules="validationFormStore.emailValidationRules"
                     v-model="form.email"
                 ></v-text-field>
                 <v-text-field
@@ -40,12 +32,13 @@ const sendData = async function () {
                     label="Пароль"
                     type="password"
                     variant="outlined"
+                    :rules="validationFormStore.passwordValidationRules"
                     v-model="form.password"
                 ></v-text-field>
                 <v-checkbox
                     label="Запомнить меня"
                 ></v-checkbox>
-                <v-btn type="submit" class="mt-2" variant="outlined" @click.prevent="sendData">Войти</v-btn>
+                <v-btn type="submit" class="mt-2" variant="outlined" @click.prevent="authStore.login(form)">Войти</v-btn>
             </v-form>
         </v-col>
     </v-row>

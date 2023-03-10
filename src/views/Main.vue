@@ -5,7 +5,7 @@ import axios from 'axios'
 const users = ref()
 
 onMounted(async () => {
-    const data = await axios.get('/api/users')
+    const data = await axios.get('/api/user')
     console.log(data)
 })
 </script>

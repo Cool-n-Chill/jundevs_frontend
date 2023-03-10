@@ -1,30 +1,22 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import axios from 'axios';
+import { storeToRefs } from 'pinia';
 
-const logout = async function () {
-  await axios.post('/api/logout')
-  console.log('logout')
-}
+import { useAlertStore } from '@/stores/alert.store';
+
+import TheNavbar from './components/TheNavbar.vue'
+
+const alertStore = useAlertStore();
+const { alert } = storeToRefs(alertStore)
+
 </script>
 
 <template>
   <v-app>
-    <v-app-bar
-      title="Jundevs"
-      prominent>
-      <v-btn :to="{name: 'login'}" variant="outlined">
-        Login
-      </v-btn>
-      <v-btn :to="{name: 'register'}" variant="outlined">
-        Register
-      </v-btn>
-      <v-btn variant="outlined" @click.prevent="logout">
-        Logout
-      </v-btn>
-    </v-app-bar>
+    <TheNavbar />
     <v-main>
       <v-container>
+        <v-alert v-if="alert" @click="alertStore.clear" :text="alertStore.alert.message" :type="alertStore.alert.type" closable />
         <RouterView />
       </v-container>
     </v-main>

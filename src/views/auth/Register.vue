@@ -1,8 +1,11 @@
 <script setup>
 import { reactive } from 'vue';
-import axios from 'axios';
+import { useAuthStore } from '@/stores/auth.store'
+import { useValidationFormStore } from '@/stores/validationForm.store'
 
-const formData = reactive (
+const validationFormStore = useValidationFormStore()
+const authStore = useAuthStore()
+const form = reactive (
     {
         name: '',
         email: '',
@@ -10,13 +13,6 @@ const formData = reactive (
         password_confirmation: '',
     }
 )
-
-function sendData () {
-    axios.post('/api/register', JSON.parse(JSON.stringify(formData)))
-    .then((res) => {console.log(res)})
-    .catch((e) => {console.log('not registered' + e)})
-}
-
 </script>
 
 <template>
@@ -30,30 +26,34 @@ function sendData () {
                     clearable
                     label="Имя"
                     variant="outlined"
-                    v-model="formData.name"
+                    :rules="validationFormStore.nameValidationRules"
+                    v-model="form.name"
                 ></v-text-field>
                 <v-text-field
                     clearable
                     label="Email"
                     type="email"
                     variant="outlined"
-                    v-model="formData.email"
+                    :rules="validationFormStore.emailValidationRules"
+                    v-model="form.email"
                 ></v-text-field>
                 <v-text-field
                     clearable
                     label="Пароль"
                     type="password"
                     variant="outlined"
-                    v-model="formData.password"
+                    :rules="validationFormStore.passwordValidationRules"
+                    v-model="form.password"
                 ></v-text-field>
                 <v-text-field
                     clearable
                     label="Подтверждение пароля"
                     type="password"
                     variant="outlined"
-                    v-model="formData.password_confirmation"
+                    :rules="validationFormStore.passwordValidationRules"
+                    v-model="form.password_confirmation"
                 ></v-text-field>
-                <v-btn type="submit" class="mt-2" variant="outlined" @click.prevent="sendData">Регистрация</v-btn>
+                <v-btn type="submit" class="mt-2" variant="outlined" @click.prevent="authStore.register(form)">Регистрация</v-btn>
             </v-form>
         </v-col>
     </v-row>

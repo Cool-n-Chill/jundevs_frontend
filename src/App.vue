@@ -1,13 +1,13 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView } from 'vue-router';
 import { storeToRefs } from 'pinia';
 
 import { useAlertStore } from '@/stores/alert.store';
 
-import TheNavbar from './components/TheNavbar.vue'
+import TheNavbar from './components/TheNavbar.vue';
 
 const alertStore = useAlertStore();
-const { alert } = storeToRefs(alertStore)
+const { alert } = storeToRefs(alertStore);
 
 </script>
 

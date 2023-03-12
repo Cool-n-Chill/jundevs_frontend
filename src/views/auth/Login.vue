@@ -19,7 +19,7 @@ const form = reactive (
             <div class="text-h3 mb-3">
                 <span>Войти</span>
             </div>
-            <v-form @submit.prevent>
+            <v-form @submit.prevent="authStore.login(form)">
                 <v-text-field
                     clearable
                     label="Email"
@@ -38,7 +38,7 @@ const form = reactive (
                 <v-checkbox
                     label="Запомнить меня"
                 ></v-checkbox>
-                <v-btn type="submit" class="mt-2" variant="outlined" @click.prevent="authStore.login(form)">Войти</v-btn>
+                <v-btn type="submit" class="mt-2" variant="outlined">Войти</v-btn>
             </v-form>
         </v-col>
     </v-row>

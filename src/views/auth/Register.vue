@@ -21,7 +21,7 @@ const form = reactive (
             <div class="text-h3 mb-3">
                 <span>Регистрация</span>
             </div>
-            <v-form @submit.prevent>
+            <v-form @submit.prevent="authStore.register(form)">
                 <v-text-field
                     clearable
                     label="Имя"
@@ -53,7 +53,7 @@ const form = reactive (
                     :rules="validationFormStore.passwordValidationRules"
                     v-model="form.password_confirmation"
                 ></v-text-field>
-                <v-btn type="submit" class="mt-2" variant="outlined" @click.prevent="authStore.register(form)">Регистрация</v-btn>
+                <v-btn type="submit" class="mt-2" variant="outlined">Регистрация</v-btn>
             </v-form>
         </v-col>
     </v-row>

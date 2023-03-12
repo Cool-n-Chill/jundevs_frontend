@@ -36,17 +36,20 @@ export const useAuthStore = defineStore({
             console.log('logout')
         },
         async sendForm (form) {
-            await axios.get('sanctum/csrf-cookie')
+            await this.getSanctumToken()
             await axios.post('/api/login', JSON.parse(JSON.stringify(form)))
         },
         async setAuthUser () {
-            this.authUser = (await this.getCurrentUser()).data
+            try {
+                this.authUser = (await this.getCurrentUser()).data
+            } catch (error) {
+                this.authUser = null
+            }
         },
         setAuthUserNull () {
             this.authUser = null
         },
         async getCurrentUser () {
-            await this.getSanctumToken()
             return await axios.get('/api/user')
         },
         async getSanctumToken () {

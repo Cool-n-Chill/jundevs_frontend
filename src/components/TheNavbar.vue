@@ -11,6 +11,13 @@ const authStore = useAuthStore()
   <v-app-bar
       title="Jundevs"
       prominent>
+      <v-btn :to="{name: 'projects'}" variant="outlined">
+        Projects
+      </v-btn>
+      <v-btn :to="{name: 'users'}" variant="outlined">
+        Users
+      </v-btn>
+      <v-spacer></v-spacer>
       <v-btn v-if="!authStore.authUser" :to="{name: 'login'}" variant="outlined">
         Login
       </v-btn>
